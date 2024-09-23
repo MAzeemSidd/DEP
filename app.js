@@ -3,9 +3,12 @@ import cors from 'cors';
 import users from './routes/users.js'
 import posts from './routes/posts.js'
 import comments from './routes/comments.js'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express()
-const PORT = 8080
+const PORT = 4545
 
 app.use(express.json())
 app.use(cors())

@@ -8,7 +8,7 @@ const router = express.Router();
 
 //Get list of Posts
 router.get('/', (req, res) => {
-    const query = req.query.id ? `SELECT * FROM posts WHERE post_id=${req.query.id}` : 'SELECT * FROM posts'
+    const query = req.query.id ? `SELECT * FROM posts WHERE id=${req.query.id}` : 'SELECT * FROM posts'
     getFunction(res, query)
 })
 
@@ -29,7 +29,7 @@ router.put('/', (req, res) => {
     if(!req.query.id) return res.send('"id" is not specified in query params')
     
     //else
-    const query = 'UPDATE posts SET `user_id` = ?, `title` = ?, `content` = ? WHERE post_id = ?';
+    const query = 'UPDATE posts SET `user_id` = ?, `title` = ?, `content` = ? WHERE id = ?';
     const values = [
         req.body.user_id,
         req.body.title,
@@ -45,7 +45,7 @@ router.delete('/', (req, res) => {
     //Checking if id is not null
     if(!req.query.id) return res.send('"id" is not specified in query params');
     //else
-    const query = `DELETE FROM posts WHERE post_id=${req.query.id}`
+    const query = `DELETE FROM posts WHERE id=${req.query.id}`
     const successMsg = 'Post deleted successfully..!!'
     deleteFunction(res, query, successMsg)
 })

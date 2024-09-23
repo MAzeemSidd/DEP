@@ -8,7 +8,7 @@ const router = express.Router();
 
 //Get list of Comments
 router.get('/', (req, res) => {
-    const query = req.query.id ? `SELECT * FROM comments WHERE comment_id=${req.query.id}` : 'SELECT * FROM comments'
+    const query = req.query.id ? `SELECT * FROM comments WHERE id=${req.query.id}` : 'SELECT * FROM comments'
     getFunction(res, query)
 })
 
@@ -29,7 +29,7 @@ router.put('/', (req, res) => {
     if(!req.query.id) return res.send('"id" is not specified in query params')
     
     //else
-    const query = 'UPDATE comments SET `post_id` = ?, `user_id` = ?, `content` = ? WHERE comment_id = ?';
+    const query = 'UPDATE comments SET `post_id` = ?, `user_id` = ?, `content` = ? WHERE id = ?';
     const values = [
         req.body.post_id,
         req.body.user_id,
@@ -45,7 +45,7 @@ router.delete('/', (req, res) => {
     //Checking if id is not null
     if(!req.query.id) return res.send('"id" is not specified in query params');
     //else
-    const query = `DELETE FROM comments WHERE comment_id=${req.query.id}`
+    const query = `DELETE FROM comments WHERE id=${req.query.id}`
     const successMsg = 'Comment deleted successfully..!!'
     deleteFunction(res, query, successMsg)
 })

@@ -1,0 +1,9 @@
+# Ignore node modules
+/node_modules
+
+# Ignore Environment variabes
+.env
+
+# Ignore Dockerfile and docker-compose.yml files
+Dockerfile
+docker-compose.yml

@@ -1,9 +1,12 @@
-/* Create Database */
+-- Create Database
 CREATE DATABASE dep;
 
-/* Create Table for users */
+-- Use dep Database
+USE dep;
+
+-- Users Table
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -11,25 +14,26 @@ CREATE TABLE users (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-/* Create Table for blog_posts */
-CREATE TABLE blog_posts (
-    post_id INT AUTO_INCREMENT PRIMARY KEY,
+-- Posts Table
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY, 
     user_id INT,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE  -- Reference users(id)
 );
 
-/* Create Table for comments */
+-- Comments Table
 CREATE TABLE comments (
-    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT,
     user_id INT,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES blog_posts(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,  -- Reference posts(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE  -- Reference users(id)
 );
+

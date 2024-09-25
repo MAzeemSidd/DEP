@@ -5,5 +5,5 @@
 .env
 
 # Ignore Dockerfile and docker-compose.yml files
-Dockerfile
-docker-compose.yml
+# Dockerfile
+# docker-compose.yml

@@ -1,9 +1,11 @@
 import db from "./dbConnection.js";
 
-function addFunction(res, query, values, successMsg) {
-    db.query(query, [values], (err) => {
-        if(err) return res.send(err);
-        return res.send(successMsg);
+function addFunction(query, values, successMsg) {
+    return new Promise((resolve, reject) => {
+        db.query(query, [values], (err) => {
+            if(err) return reject(err);
+            return resolve(successMsg);
+        })
     })
 }
 

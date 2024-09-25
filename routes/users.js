@@ -7,21 +7,32 @@ import deleteFunction from "../functions/deleteFunction.js";
 const router = express.Router();
 
 //Get list of Users
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const query = req.query.id ? `SELECT * FROM users WHERE id=${req.query.id}` : 'SELECT * FROM users'
-    getFunction(res, query)
+    try {
+        const data = await getFunction(query)
+        res.json(data)
+    } catch (error) {
+        res.send(error)
+    }
 })
 
 //Add a User
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const query = 'INSERT INTO users (`username`, `email`, `password`) VALUES (?)';
     const values = [req.body.username, req.body.email, req.body.password]
     const successMsg = 'User added successfully..!!'
-    addFunction(res, query, values, successMsg)
+    
+    try {
+        const data = await addFunction(query, values, successMsg)
+        res.json(data)
+    } catch (error) {
+        res.send(error)
+    }
 })
 
 //Update a User
-router.put('/', (req, res) => {
+router.put('/', async (req, res) => {
     //Check for an empty request object
     if(Object.keys(req.body).length == 0) return res.send('There is not a single field in the request body')
 
@@ -37,17 +48,29 @@ router.put('/', (req, res) => {
         req.query.id
     ]
     const successMsg = 'User updated successfully..!!'
-    updateFunction(res, query, values, successMsg)
+
+    try {
+        const data = await updateFunction(query, values, successMsg)
+        res.json(data)
+    } catch (error) {
+        res.send(error)
+    }
 })
 
 //Delete a User
-router.delete('/', (req, res) => {
+router.delete('/', async (req, res) => {
     //Checking if id is not null
     if(!req.query.id) return res.send('"id" is not specified in query params');
     //else
     const query = `DELETE FROM users WHERE id=${req.query.id}`
     const successMsg = 'User deleted successfully..!!'
-    deleteFunction(res, query, successMsg)
+    
+    try {
+        const data = await deleteFunction(query, successMsg)
+        res.json(data)
+    } catch (error) {
+        res.send(error)
+    }
 })
 
 export default router;

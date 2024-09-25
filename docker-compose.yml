@@ -1,0 +1,32 @@
+services:
+  # Define the Node.js application service
+  app:
+    build: .
+    ports:
+      - '4545:4545'
+    depends_on:
+      - db  # This ensures the app container starts after the db container
+    environment:
+      - DB_HOST=db  # Refer to the db service as the host
+      - DB_USER=root
+      - DB_PASSWORD=root123
+      - DB_NAME=dep
+      - DB_PORT=4646  # Optional, but you can specify if you need it
+
+  # Define the MySQL database service
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: dep
+    ports:
+      - '4646:4646'  # Expose MySQL port
+
+    # Optional: You can use a volume to persist data even after container restarts
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d  # Initialize schema
+
+volumes:
+  db_data:

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node product_service.js",
+    "start:product": "node product_service.js",
     "dev:product": "nodemon product_service.js"
   },
   "keywords": [],

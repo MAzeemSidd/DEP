@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node inventory_service.js",
+    "start:inventory": "node inventory_service.js",
     "dev:inventory": "nodemon inventory_service.js"
   },
   "keywords": [],

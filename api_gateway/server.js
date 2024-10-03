@@ -47,7 +47,14 @@ app.use('/api/inventory', createProxyMiddleware({
         res.status(500).json({ error: 'Cannot connect to Inventory Service' });
     }
 }));
-// app.use('/api/orders', createProxyMiddleware({ target: services.order, changeOrigin: true }));
+app.use('/api/orders', createProxyMiddleware({
+    target: services.order,
+    changeOrigin: true,
+    onError: (err, req, res) => {
+        console.error('Error connecting to Inventory Service:', err);
+        res.status(500).json({ error: 'Cannot connect to Inventory Service' });
+    }
+}));
 // app.use('/api/payments', createProxyMiddleware({ target: services.payment, changeOrigin: true }));
   
 

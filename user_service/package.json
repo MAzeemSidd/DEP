@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node user_service.js",
+    "start:user": "node user_service.js",
     "dev:user": "nodemon user_service.js"
   },
   "keywords": [],

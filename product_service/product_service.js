@@ -18,7 +18,11 @@ app.use(cors())
 
 //Get Products
 app.get('/', async (req, res) => {
-    const query = req.query.id ? `SELECT * FROM products WHERE status='Active' id=${req.query.id}` : "SELECT * FROM products WHERE status='Active'"
+    let query;
+    if(req.query.custom) query = req.query.custom
+    else if(req.query.id) query = `SELECT * FROM products WHERE status='Active' id=${req.query.id}`
+    else query = "SELECT * FROM products WHERE status='Active'"
+
     try {
         const data = await getFunction(query)
         res.json(data)

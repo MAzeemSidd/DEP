@@ -1,22 +1,24 @@
 {
-  "name": "user_service",
+  "name": "api_gateway",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node user_service.js",
-    "dev:user": "nodemon user_service.js"
+    "start": "node server.js",
+    "dev:server": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "mysql2": "^3.11.3"
+    "http-proxy-middleware": "^3.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

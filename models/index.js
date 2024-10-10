@@ -4,12 +4,17 @@ import SongModel from './Song.js';
 import GenreModel from './Genre.js';
 import PlaylistModel from './Playlist.js';
 import PlaylistSongModel from './PlaylistSong.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Initialize Sequelize
-const sequelize = new Sequelize('music_db', 'root', 'root123', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
+  }
+);
 
 // Define Models
 const User = UserModel(sequelize);
@@ -22,8 +27,8 @@ const PlaylistSong = PlaylistSongModel(sequelize);
 Genre.hasMany(Song);
 Song.belongsTo(Genre);
 
-User.hasMany(Playlist);
-Playlist.belongsTo(User);
+User.hasMany(Playlist, { onDelete: 'CASCADE', hooks: true });
+Playlist.belongsTo(User, { onDelete: 'CASCADE', allowNull: false });
 
 Playlist.belongsToMany(Song, { through: PlaylistSong });
 Song.belongsToMany(Playlist, { through: PlaylistSong });

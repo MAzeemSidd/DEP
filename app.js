@@ -1,24 +1,36 @@
 import express from 'express';
-import cors from 'cors';
-import users from './routes/users.js'
-import posts from './routes/posts.js'
-import comments from './routes/comments.js'
 import dotenv from 'dotenv';
+import { ApolloServer } from 'apollo-server-express';
+import { typeDefs } from './graphql/schema.js';
+import { resolvers } from './graphql/resolvers.js';
+import { sequelize } from './models/index.js';
 
 dotenv.config();
 
-const app = express()
-const PORT = 4545
+const startServer = async () => {
+  const app = express();
 
-app.use(express.json())
-app.use(cors())
+  // Initialize Apollo Server
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
 
-/* Routes */
-app.use('/users', users) //users
-app.use('/posts', posts) //posts
-app.use('/comments', comments) //comments
+  await server.start();
+  server.applyMiddleware({ app });
 
+  // Test DB connection
+  try {
+    await sequelize.authenticate();
+    console.log('Database connected!');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 
-app.listen(PORT, () => {
-    console.log(`App running on port ${PORT}`)
-})
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  });
+};
+
+startServer();

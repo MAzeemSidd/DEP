@@ -1,36 +1,23 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import { ApolloServer } from 'apollo-server-express';
-import { typeDefs } from './graphql/schema.js';
-import { resolvers } from './graphql/resolvers.js';
-import { sequelize } from './models/index.js';
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/authRoutes');
+const propertyRoutes = require('./routes/propertyRoutes');
 
-dotenv.config();
+console.log('DB_USER:', process.env.DB_USER);   // Should print 'root'
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);   // Should print 'root123'
 
-const startServer = async () => {
-  const app = express();
+const app = express();
 
-  // Initialize Apollo Server
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-  });
+// Middleware
+app.use(bodyParser.json());
 
-  await server.start();
-  server.applyMiddleware({ app });
+// Routes
+app.use('/api', authRoutes);
+app.use('/api', propertyRoutes);
 
-  // Test DB connection
-  try {
-    await sequelize.authenticate();
-    console.log('Database connected!');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-  });
-};
-
-startServer();
+// Start the server
+const PORT = process.env.PORT || 4500;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
